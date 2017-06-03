@@ -5,17 +5,27 @@ import (
 	"github.com/Oppodelldog/balkonygardener/sensor"
 	"github.com/Oppodelldog/balkonygardener/water"
 	"github.com/Oppodelldog/balkonygardener/api"
+	"github.com/Oppodelldog/balkonygardener"
+	"github.com/Oppodelldog/balkonygardener/modules"
 )
 
 func main() {
 
-	sensor.StartSensorProcessing()
+	appModules := loadModules()
 
-	water.StartGardener()
-
-	api.Start()
+	for _, appModule := range appModules {
+		appModule.Start();
+	}
 
 	for {
 		time.Sleep(100 * time.Millisecond)
+	}
+}
+
+func loadModules() []modules.Module{
+	return []modules.Module{
+		modules.NewRestfulSenorApiModule(),
+		modules.NewWateringModule(),
+		modules.NewSensorReaderModule(),
 	}
 }

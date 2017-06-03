@@ -3,15 +3,9 @@ package db
 import (
 	"database/sql"
 	"path"
-	"time"
 )
 
-type FloatValues []FloatValue
-type FloatValue struct{
-	T time.Time
-	V interface{}
-}
-func ListFloatValues(tableName string) (FloatValues, error) {
+func ListValues(tableName string) (SensorValues, error) {
 	db, err := sql.Open("sqlite3", path.Join("./", dbFileName))
 	if err != nil {
 		return nil, err
@@ -24,11 +18,11 @@ func ListFloatValues(tableName string) (FloatValues, error) {
 		return nil, err
 	}
 
-	floatValues := FloatValues{}
+	floatValues := SensorValues{}
 
 	for rows.Next() {
-		fv := FloatValue{}
-		rows.Scan(&fv.T,&fv.V)
+		fv := SensorValue{}
+		rows.Scan(&fv.T, &fv.V)
 		floatValues = append(floatValues, fv)
 	}
 
