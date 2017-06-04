@@ -22,5 +22,6 @@ func arduinoMessageDecoder(arduinoMessages chan string, sensorInfoChannel chan *
 			}
 		}
 	}
+	close(sensorInfoChannel)
 	logrus.Info("arduinoMessageDecoder ended")
 }

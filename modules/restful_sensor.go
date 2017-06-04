@@ -2,12 +2,12 @@ package modules
 
 import "github.com/Oppodelldog/balkonygardener/api"
 
-type RestfulSensorApi struct{}
+type restfulSensorApi struct{}
 
-func (module *RestfulSensorApi )Start() {
+func (module *restfulSensorApi)Start() {
 	go api.StartRestfulApi()
 }
-func NewRestfulSenorApiModule() *RestfulSensorApi{
-	return &RestfulSensorApi{}
+func newRestfulSenorApiModule() *restfulSensorApi {
+	return &restfulSensorApi{}
 }
 

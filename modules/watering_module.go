@@ -2,11 +2,11 @@ package modules
 
 import "github.com/Oppodelldog/balkonygardener/water"
 
-type WateringModule struct{}
+type watering struct{}
 
-func (api *WateringModule) Start() {
+func (api *watering) Start() {
 	go water.StartGardener()
 }
-func NewWateringModule() *WateringModule {
-	return &WateringModule{}
+func newWateringModule() *watering {
+	return &watering{}
 }

@@ -2,11 +2,11 @@ package modules
 
 import "github.com/Oppodelldog/balkonygardener/sensor"
 
-type SensorReaderModule struct{}
+type sensorReader struct{}
 
-func (module *SensorReaderModule )Start() {
+func (module *sensorReader)Start() {
 	go sensor.StartSensorProcessing()
 }
-func NewSensorReaderModule() *SensorReaderModule{
-	return &SensorReaderModule{}
+func newSensorReaderModule() *sensorReader {
+	return &sensorReader{}
 }
