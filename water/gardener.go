@@ -2,6 +2,7 @@ package water
 
 import (
 	"fmt"
+	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/log"
 	"time"
 
@@ -14,38 +15,19 @@ import (
 
 func StartGardener() {
 	hwio.SetDriver(hwio.NewRaspPiDTDriver())
-	gocron.Every(1).Day().At("18:36").Do(watering)
+	gocron.Every(1).Day().At(config.Watering.Time).Do(watering)
 	gocron.Start()
 }
 
-var wateringConfigs = []WateringConfig{
-	{
-		PinName:  "gpio4",
-		Comment:  "Blumen",
-		Duration: time.Second * 35,
-	},
-	{
-		PinName:  "gpio17",
-		Comment:  "Baum",
-		Duration: time.Second * 20,
-	},
-	{
-		PinName:  "gpio22",
-		Comment:  "Rote Blume",
-		Duration: time.Second * 10,
-	},
-}
-
 func watering() {
-
-	for _, wateringConfig := range wateringConfigs {
+	for _, wateringConfig := range config.Watering.Waterings {
 		err := Water(wateringConfig)
 		if err != nil {
 			logrus.Errorf("error during watering %s(%s): %v", wateringConfig.PinName, wateringConfig.Comment, err)
 		}
 	}
 }
-func Water(config WateringConfig) error {
+func Water(config config.WateringEntryConfig) error {
 
 	flowersPin, err := hwio.GetPin(config.PinName)
 	if err != nil {

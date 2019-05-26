@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 	"time"
@@ -10,7 +11,7 @@ import (
 )
 
 func SaveFloat(name string, value float64) error {
-	db, err := sql.Open("sqlite3", path.Join("./", dbFileName))
+	db, err := sql.Open("sqlite3", path.Join("./", config.Db.Filename))
 	if err != nil {
 		return err
 	}

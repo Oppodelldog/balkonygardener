@@ -2,12 +2,13 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 )
 
 func ListTables() ([]string, error) {
-	db, err := sql.Open("sqlite3", path.Join("./", dbFileName))
+	db, err := sql.Open("sqlite3", path.Join("./", config.Db.Filename))
 	if err != nil {
 		return nil, err
 	}

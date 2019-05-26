@@ -1,15 +1,16 @@
 package sensor
 
 import (
+	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/sirupsen/logrus"
 	"github.com/tarm/serial"
 )
 
 func arduinoReader(arduinoMessages chan string) {
 
-	device := "/dev/ttyACM0"
+	device := config.Arduino.Device
 	logrus.Infof("Arduino Reader opening connection to %v", device)
-	c := &serial.Config{Name: device, Baud: 9600}
+	c := &serial.Config{Name: device, Baud: config.Arduino.BaudRate}
 	s, err := serial.OpenPort(c)
 	if err != nil {
 		panic(err)

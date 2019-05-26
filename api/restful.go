@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Oppodelldog/balkonygardener/config"
 	"net/http"
 	"strconv"
 	"time"
@@ -116,11 +117,11 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	config := water.WateringConfig{
+	cfg := config.WateringEntryConfig{
 		Duration: time.Second * time.Duration(duration),
 		PinName:  pinName,
 	}
-	err = water.Water(config)
+	err = water.Water(cfg)
 	if err != nil {
 		logrus.Error(err)
 		w.WriteHeader(500)
