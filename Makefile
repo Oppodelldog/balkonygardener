@@ -26,7 +26,6 @@ lint: ## Run all the linters
 		--enable=deadcode \
 		--enable=gocyclo \
 		--enable=ineffassign \
-		--enable=gosimple \
 		--enable=staticcheck \
 		--enable=gofmt \
 		--enable=golint \
