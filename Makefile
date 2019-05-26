@@ -1,6 +1,6 @@
 export GO111MODULE=on
 BINARY_NAME=balkonygardener
-BINARY_FILE_PATH=".build/$(BINARY_NAME)"
+BINARY_FILE_PATH="bin/$(BINARY_NAME)"
 
 setup: ## Install all the build and lint dependencies
 	wget -O- https://git.io/vp6lP | sh 
