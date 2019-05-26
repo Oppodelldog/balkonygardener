@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 )
 
@@ -10,7 +11,7 @@ func ListValues(tableName string) (SensorValues, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer db.Close()
+	defer log.Error(db.Close())
 
 	createTableStatement := `SELECT t,v FROM ` + tableName + ` ORDER BY t;`
 	rows, err := db.Query(createTableStatement)
@@ -22,7 +23,7 @@ func ListValues(tableName string) (SensorValues, error) {
 
 	for rows.Next() {
 		fv := SensorValue{}
-		rows.Scan(&fv.T, &fv.V)
+		log.Error(rows.Scan(&fv.T, &fv.V))
 		floatValues = append(floatValues, fv)
 	}
 

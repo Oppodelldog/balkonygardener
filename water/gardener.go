@@ -1,13 +1,15 @@
 package water
 
 import (
-	"github.com/jasonlvhit/gocron"
-	"time"
-	"github.com/Oppodelldog/balkonygardener/db"
-	"github.com/mrmorphic/hwio"
 	"fmt"
-	"github.com/Sirupsen/logrus"
+	"github.com/Oppodelldog/balkonygardener/log"
+	"time"
+
+	"github.com/Oppodelldog/balkonygardener/db"
+	"github.com/jasonlvhit/gocron"
+	"github.com/mrmorphic/hwio"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 )
 
 func StartGardener() {
@@ -50,7 +52,7 @@ func Water(config WateringConfig) error {
 		return errors.Wrap(err, "Could not GetPing")
 
 	}
-	defer hwio.ClosePin(flowersPin)
+	defer log.Error(hwio.ClosePin(flowersPin))
 
 	err = hwio.PinMode(flowersPin, hwio.OUTPUT)
 	if err != nil {
@@ -62,9 +64,9 @@ func Water(config WateringConfig) error {
 		return errors.Wrap(err, "Could not DigitalWrite (LOW)")
 	}
 
-	db.SaveString("water", fmt.Sprintf("OPEN WATER PIPELINE %s (%s)", config.PinName, config.Comment))
+	log.Error(db.SaveString("water", fmt.Sprintf("OPEN WATER PIPELINE %s (%s)", config.PinName, config.Comment)))
 	time.Sleep(config.Duration)
-	db.SaveString("water", fmt.Sprintf("CLOSE WATER PIPELINE %s (%s)", config.PinName, config.Comment))
+	log.Error(db.SaveString("water", fmt.Sprintf("CLOSE WATER PIPELINE %s (%s)", config.PinName, config.Comment)))
 
 	err = hwio.DigitalWrite(flowersPin, hwio.HIGH)
 	if err != nil {

@@ -2,9 +2,11 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 	"time"
-	"github.com/Sirupsen/logrus"
+
+	"github.com/sirupsen/logrus"
 )
 
 func GetValuesForHours(tableName string, hours int) (SensorValues, error) {
@@ -12,7 +14,7 @@ func GetValuesForHours(tableName string, hours int) (SensorValues, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer db.Close()
+	defer log.Error(db.Close())
 
 	dateFrom := time.Now().Add(time.Hour * time.Duration(-hours))
 	dateTo := time.Now().Add(time.Hour)
@@ -29,7 +31,7 @@ func GetValuesForHours(tableName string, hours int) (SensorValues, error) {
 
 	for rows.Next() {
 		fv := SensorValue{}
-		rows.Scan(&fv.T, &fv.V)
+		log.Error(rows.Scan(&fv.T, &fv.V))
 		floatValues = append(floatValues, fv)
 	}
 

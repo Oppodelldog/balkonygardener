@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 )
 
@@ -10,7 +11,7 @@ func GetLatestValue(tableName string) (*SensorValue, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer db.Close()
+	defer log.Error(db.Close())
 
 	createTableStatement := `SELECT t,v FROM ` + tableName + ` ORDER BY t DESC LIMIT 1;`
 	rows, err := db.Query(createTableStatement)
@@ -20,7 +21,7 @@ func GetLatestValue(tableName string) (*SensorValue, error) {
 
 	rows.Next()
 	fv := SensorValue{}
-	rows.Scan(&fv.T, &fv.V)
+	log.Error(rows.Scan(&fv.T, &fv.V))
 
 	return &fv, nil
 }

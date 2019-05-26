@@ -1,5 +1,5 @@
 package modules
 
-type Module interface{
+type Module interface {
 	Start()
 }

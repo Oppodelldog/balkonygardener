@@ -2,13 +2,13 @@ package sensor
 
 import (
 	"errors"
-	"strings"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
-func parseSensorInfo(rawMessage string) (error, *SensorInfo) {
-	sensorInfo := &SensorInfo{}
+func parseSensorInfo(rawMessage string) (error, *Info) {
+	sensorInfo := &Info{}
 	parts := strings.Split(rawMessage, ":")
 	if len(parts) != 2 {
 		return errors.New(fmt.Sprintf("could not parse arduino info from: '%s'. Expected 2 parts, but got %v", rawMessage, len(parts))), nil
@@ -20,7 +20,7 @@ func parseSensorInfo(rawMessage string) (error, *SensorInfo) {
 	sensorInfo.Name = parts[0]
 
 	if strings.Contains(parts[1], ".") {
-	}else {
+	} else {
 		if len(parts[1]) != 5 {
 			return errors.New(fmt.Sprintf("could not parse arduino info from: '%s'. Second part must be 5 characters long but was %v", rawMessage, len(parts[1]))), nil
 		}

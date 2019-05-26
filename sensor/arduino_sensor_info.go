@@ -1,13 +1,6 @@
 package sensor
 
-import (
-	"errors"
-	"strings"
-	"fmt"
-	"strconv"
-)
-
-type SensorInfo struct {
+type Info struct {
 	Name  string
 	Value float64
 }

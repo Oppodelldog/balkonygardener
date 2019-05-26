@@ -1,14 +1,14 @@
 package sensor
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func Test_arduinoMessageDecoder(t *testing.T) {
 
 	arduinoMessages := make(chan string)
-	sensorInfoChannel := make(chan *SensorInfo)
+	sensorInfoChannel := make(chan *Info)
 	numberOfReceivedSensorInfosChannel := make(chan int)
 	fmt.Println("check 1")
 	go arduinoMessageDecoder(arduinoMessages, sensorInfoChannel)

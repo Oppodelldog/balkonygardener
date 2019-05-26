@@ -1,6 +1,6 @@
 package modules
 
-import "github.com/Sirupsen/logrus"
+import "github.com/sirupsen/logrus"
 
 func StartModules() {
 	appModules := loadModules()
@@ -8,7 +8,7 @@ func StartModules() {
 	logrus.Infof("starting modules")
 	for _, appModule := range appModules {
 		logrus.Infof("starting %T", appModule)
-		appModule.Start();
+		appModule.Start()
 	}
 	logrus.Infof("modules started")
 }

@@ -1,8 +1,8 @@
 package sensor
 
-import "github.com/Sirupsen/logrus"
+import "github.com/sirupsen/logrus"
 
-func arduinoMessageDecoder(arduinoMessages chan string, sensorInfoChannel chan *SensorInfo) {
+func arduinoMessageDecoder(arduinoMessages chan string, sensorInfoChannel chan *Info) {
 	running := true
 	for running {
 		select {

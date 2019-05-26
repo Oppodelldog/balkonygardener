@@ -2,6 +2,7 @@ package main
 
 import (
 	"time"
+
 	"github.com/Oppodelldog/balkonygardener/modules"
 )
 
@@ -13,4 +14,3 @@ func main() {
 		time.Sleep(100 * time.Millisecond)
 	}
 }
-

@@ -2,16 +2,17 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 	"time"
 )
 
-func SaveString(name string, value string) error{
-	db, err := sql.Open("sqlite3", path.Join("./",dbFileName))
+func SaveString(name string, value string) error {
+	db, err := sql.Open("sqlite3", path.Join("./", dbFileName))
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer log.Error(db.Close())
 
 	createTableStatement := `create table if not exists ` + name + ` (t datetime, v string)`
 	_, err = db.Exec(createTableStatement)
@@ -27,7 +28,7 @@ func SaveString(name string, value string) error{
 	if err != nil {
 		return err
 	}
-	defer stmt.Close()
+	defer log.Error(stmt.Close())
 	_, err = stmt.Exec(time.Now(), value)
 	if err != nil {
 		return err

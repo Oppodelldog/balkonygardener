@@ -4,10 +4,9 @@ import "github.com/Oppodelldog/balkonygardener/api"
 
 type restfulSensorApi struct{}
 
-func (module *restfulSensorApi)Start() {
+func (module *restfulSensorApi) Start() {
 	go api.StartRestfulApi()
 }
 func newRestfulSenorApiModule() *restfulSensorApi {
 	return &restfulSensorApi{}
 }
-

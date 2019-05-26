@@ -2,11 +2,12 @@ package sensor
 
 import (
 	"time"
-	"github.com/Sirupsen/logrus"
+
 	"github.com/Oppodelldog/balkonygardener/db"
+	"github.com/sirupsen/logrus"
 )
 
-func processSensorInfo(sensorInfoChannel chan *SensorInfo) {
+func processSensorInfo(sensorInfoChannel chan *Info) {
 	lastSaveTimes := map[string]time.Time{}
 	running := true
 	for running {

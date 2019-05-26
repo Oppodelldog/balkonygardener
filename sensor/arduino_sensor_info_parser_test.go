@@ -1,18 +1,18 @@
 package sensor
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func Test_parseSensorInfo_constructive(t *testing.T) {
 	type TestDataSetup struct {
 		input       string
-		expectation *SensorInfo
+		expectation *Info
 	}
 	testDataSetups := []TestDataSetup{
-		{input: "A0:12345", expectation: &SensorInfo{Name: "A0", Value: 12345}},
-		{input: "A0:12345.987", expectation: &SensorInfo{Name: "A0", Value: 12345.987}},
+		{input: "A0:12345", expectation: &Info{Name: "A0", Value: 12345}},
+		{input: "A0:12345.987", expectation: &Info{Name: "A0", Value: 12345.987}},
 	}
 
 	for _, testDataSetup := range testDataSetups {
@@ -31,7 +31,7 @@ func Test_parseSensorInfo_constructive(t *testing.T) {
 
 func Test_parseSensorInfo_destructive(t *testing.T) {
 	type TestDataSetup struct {
-		input       string
+		input string
 	}
 	testDataSetups := []TestDataSetup{
 		{input: "A0:345"},

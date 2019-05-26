@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 )
 
@@ -10,7 +11,7 @@ func ListTables() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer db.Close()
+	defer log.Error(db.Close())
 
 	createTableStatement := `SELECT name FROM sqlite_master WHERE type='table';`
 	rows, err := db.Query(createTableStatement)
@@ -18,10 +19,10 @@ func ListTables() ([]string, error) {
 		return nil, err
 	}
 
-	tableNames := []string{}
+	var tableNames []string
 	var tableName string
 	for rows.Next() {
-		rows.Scan(&tableName)
+		_ = rows.Scan(&tableName)
 		tableNames = append(tableNames, tableName)
 	}
 

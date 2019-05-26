@@ -1,7 +1,7 @@
 package sensor
 
 import (
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/tarm/serial"
 )
 
@@ -18,7 +18,7 @@ func arduinoReader(arduinoMessages chan string) {
 	logrus.Info("connection established, reading data...")
 
 	readBuffer := make([]byte, 100)
-	messageBuffer := []byte{}
+	var messageBuffer []byte
 	for {
 		n, err := s.Read(readBuffer)
 		if err != nil {

@@ -1,16 +1,17 @@
 package api
 
 import (
-	"github.com/gorilla/mux"
-	"net/http"
-	"fmt"
-	"github.com/Sirupsen/logrus"
-	"github.com/Oppodelldog/balkonygardener/db"
 	"encoding/json"
+	"fmt"
+	"net/http"
 	"strconv"
-	"github.com/Oppodelldog/balkonygardener/water"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/db"
+	"github.com/Oppodelldog/balkonygardener/water"
+	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 )
 
 func StartRestfulApi() {
@@ -29,6 +30,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "web/index.html")
 }
 
+//noinspection GoUnusedParameter
 func SensorIndex(w http.ResponseWriter, r *http.Request) {
 	tableNames, err := db.ListTables()
 	if err != nil {
@@ -40,7 +42,7 @@ func SensorIndex(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Fprintln(w, string(jsonTableNames))
+	writeResponse(w, jsonTableNames)
 }
 
 func SensorShow(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +58,7 @@ func SensorShow(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Fprintln(w, string(jsonFloatValues))
+	writeResponse(w, jsonFloatValues)
 }
 
 func SensorShowCurrent(w http.ResponseWriter, r *http.Request) {
@@ -72,7 +74,7 @@ func SensorShowCurrent(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Fprintln(w, string(jsonFloatValue))
+	writeResponse(w, jsonFloatValue)
 }
 
 func SensorShowHours(w http.ResponseWriter, r *http.Request) {
@@ -96,7 +98,7 @@ func SensorShowHours(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Fprintln(w, string(jsonFloatValues))
+	writeResponse(w, jsonFloatValues)
 }
 
 func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
@@ -131,13 +133,13 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Fprintln(w, string(jsonOKValue))
+	writeResponse(w, jsonOKValue)
 
 }
 func getPinNameByPipelineId(pipelineId string) (string, error) {
 	mappings := map[string]string{"gpio4": "gpio4",
-		"gpio22":                      "gpio22",
-		"gpio17":                      "gpio17"}
+		"gpio22": "gpio22",
+		"gpio17": "gpio17"}
 
 	if pinName, ok := mappings[pipelineId]; ok {
 		return pinName, nil
@@ -145,4 +147,11 @@ func getPinNameByPipelineId(pipelineId string) (string, error) {
 	}
 
 	return "", errors.New("Invalid pipelineId")
+}
+
+func writeResponse(w http.ResponseWriter, jsonTableNames []byte) {
+	_, err := fmt.Fprintln(w, string(jsonTableNames))
+	if err != nil {
+		logrus.Errorf("could not write response to client: %v", err)
+	}
 }

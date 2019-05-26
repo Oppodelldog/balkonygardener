@@ -1,6 +1,6 @@
 package modules
 
-func loadModules() []Module{
+func loadModules() []Module {
 	return []Module{
 		newRestfulSenorApiModule(),
 		newWateringModule(),

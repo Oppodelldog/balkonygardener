@@ -2,17 +2,19 @@ package db
 
 import (
 	"database/sql"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 	"time"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func SaveFloat(name string, value float64) error{
-	db, err := sql.Open("sqlite3", path.Join("./",dbFileName))
+func SaveFloat(name string, value float64) error {
+	db, err := sql.Open("sqlite3", path.Join("./", dbFileName))
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer log.Error(db.Close())
 
 	createTableStatement := `create table if not exists ` + name + ` (t datetime, v float)`
 	_, err = db.Exec(createTableStatement)
@@ -28,7 +30,7 @@ func SaveFloat(name string, value float64) error{
 	if err != nil {
 		return err
 	}
-	defer stmt.Close()
+	defer log.Error(stmt.Close())
 	_, err = stmt.Exec(time.Now(), value)
 	if err != nil {
 		return err
