@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/joho/godotenv"
 	"io/ioutil"
 	"log"
 	"os"
@@ -44,7 +45,11 @@ type WateringEntryConfig struct {
 }
 
 func init() {
-	err := envconfig.Process("BG_LOG", &Log)
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	err = envconfig.Process("BG_LOG", &Log)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
