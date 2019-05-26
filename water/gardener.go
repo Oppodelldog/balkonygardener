@@ -2,6 +2,7 @@ package water
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/Oppodelldog/balkonygardener/config"
@@ -34,7 +35,47 @@ func getGpioAdapter() GpioAdapter {
 	return new(GpioHwioAdapter)
 }
 
+func IsWatering(pinName string) bool {
+	if _, ok := wateringLock[pinName]; !ok {
+		wateringLock[pinName] = new(boolLock)
+	}
+
+	return wateringLock[pinName].IsLocked()
+}
+
+var wateringLock = map[string]*boolLock{}
+
+type boolLock struct {
+	value bool
+	m     sync.Mutex
+}
+
+func (l *boolLock) IsLocked() bool {
+	l.m.Lock()
+	defer l.m.Unlock()
+
+	return l.value
+}
+func (l *boolLock) Lock() {
+	l.m.Lock()
+	defer l.m.Unlock()
+
+	l.value = true
+}
+func (l *boolLock) Unlock() {
+	l.m.Lock()
+	defer l.m.Unlock()
+
+	l.value = false
+}
+
 func Water(pinName string, config config.WateringEntryConfig) error {
+	if IsWatering(pinName) {
+		return errors.New("active job running")
+	}
+	wateringLock[pinName].Lock()
+	defer wateringLock[pinName].Unlock()
+
 	gpioAdapter := getGpioAdapter()
 
 	flowersPin, err := gpioAdapter.GetPin(pinName)

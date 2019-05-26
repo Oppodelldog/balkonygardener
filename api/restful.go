@@ -115,12 +115,20 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 	cfg := config.WateringEntryConfig{
 		Duration: time.Second * time.Duration(duration),
 	}
-	err = water.Water(pinName, cfg)
-	if err != nil {
-		logrus.Error(err)
-		w.WriteHeader(500)
+
+	if water.IsWatering(pinName) {
+		w.WriteHeader(404)
 		return
 	}
+
+	go func() {
+		err := water.Water(pinName, cfg)
+		if err != nil {
+			logrus.Error(err)
+			w.WriteHeader(500)
+			return
+		}
+	}()
 
 	jsonOKValue, err := json.Marshal("OK")
 	if err != nil {

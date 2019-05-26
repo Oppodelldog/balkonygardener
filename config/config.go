@@ -1,11 +1,12 @@
 package config
 
 import (
-	"github.com/joho/godotenv"
 	"io/ioutil"
 	"log"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 
 	"github.com/kelseyhightower/envconfig"
 	"github.com/sirupsen/logrus"
@@ -42,6 +43,15 @@ type DbConfig struct {
 }
 
 type WateringConfig map[string]WateringEntryConfig
+
+func (c WateringConfig) FindConfig(pinName string) *WateringEntryConfig {
+	for name, waterConfig := range c {
+		if name == pinName {
+			return &waterConfig
+		}
+	}
+	return nil
+}
 
 type WateringEntryConfig struct {
 	Duration time.Duration `yaml:"Duration"`
