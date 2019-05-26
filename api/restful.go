@@ -28,7 +28,7 @@ func StartRestfulApi() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "web/index.html")
+	http.ServeFile(w, r, config.Frontend.IndexFile)
 }
 
 //noinspection GoUnusedParameter
