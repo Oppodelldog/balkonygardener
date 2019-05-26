@@ -24,7 +24,7 @@ func processSensorInfo(sensorInfoChannel chan *Info) {
 					break
 				}
 				if time.Since(lastSaveTimes[sensorInfo.Name]) > time.Duration(time.Duration(config.Arduino.CaptureInterval)*time.Second) {
-					logrus.Infof("saving sensor info: %v, %v", sensorInfo.Name, sensorInfo.Value)
+					logrus.Debugf("saving sensor info: %v, %v", sensorInfo.Name, sensorInfo.Value)
 					err := db.SaveFloat(sensorInfo.Name, sensorInfo.Value)
 					if err != nil {
 						logrus.Errorf("error while saving sensor info: %v", err)
