@@ -2,10 +2,11 @@ package db
 
 import (
 	"database/sql"
-	"github.com/Oppodelldog/balkonygardener/config"
-	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/config"
+	"github.com/Oppodelldog/balkonygardener/log"
 )
 
 func SaveString(name string, value string) error {

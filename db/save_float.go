@@ -2,10 +2,11 @@ package db
 
 import (
 	"database/sql"
-	"github.com/Oppodelldog/balkonygardener/config"
-	"github.com/Oppodelldog/balkonygardener/log"
 	"path"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/config"
+	"github.com/Oppodelldog/balkonygardener/log"
 
 	_ "github.com/mattn/go-sqlite3"
 )

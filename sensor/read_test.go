@@ -16,7 +16,7 @@ func TestArduinoReader(t *testing.T) {
 	ctx, _ := context.WithTimeout(context.Background(), time.Second)
 	reader := bytes.NewBufferString(fmt.Sprintf("%s\r\n%s\r\n", testString1, testString2))
 	messages := make(chan string)
-	go arduinoReader(ctx, messages, ioutil.NopCloser(reader))
+	go receiveArduinoMessages(ctx, messages, ioutil.NopCloser(reader))
 
 	msg := <-messages
 	if testString1 != msg {
@@ -33,7 +33,7 @@ func TestArduinoReaderIsStoppedByContext(t *testing.T) {
 	ctx, _ := context.WithTimeout(context.Background(), time.Millisecond*200)
 	messages := make(chan string)
 
-	arduinoReader(ctx, messages, slowReader{})
+	receiveArduinoMessages(ctx, messages, slowReader{})
 }
 
 type slowReader struct{}

@@ -2,9 +2,10 @@ package db
 
 import (
 	"database/sql"
+	"path"
+
 	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/log"
-	"path"
 )
 
 func ListValues(tableName string) (SensorValues, error) {

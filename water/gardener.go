@@ -2,9 +2,10 @@ package water
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/log"
-	"time"
 
 	"github.com/Oppodelldog/balkonygardener/db"
 	"github.com/jasonlvhit/gocron"
@@ -26,21 +27,28 @@ func StartGardener() {
 	gocron.Start()
 }
 
-func Water(pinName string, config config.WateringEntryConfig) error {
+func getGpioAdapter() GpioAdapter {
+	if config.Gpio.Mock {
+		return new(GpioAdapterMock)
+	}
+	return new(GpioHwioAdapter)
+}
 
-	flowersPin, err := hwio.GetPin(pinName)
+func Water(pinName string, config config.WateringEntryConfig) error {
+	gpioAdapter := getGpioAdapter()
+
+	flowersPin, err := gpioAdapter.GetPin(pinName)
 	if err != nil {
 		return errors.Wrap(err, "Could not GetPing")
-
 	}
-	defer log.Error(hwio.ClosePin(flowersPin))
+	defer log.Error(gpioAdapter.ClosePin(flowersPin))
 
-	err = hwio.PinMode(flowersPin, hwio.OUTPUT)
+	err = gpioAdapter.PinMode(flowersPin, hwio.OUTPUT)
 	if err != nil {
 		return errors.Wrap(err, "Could not PinMode")
 	}
 
-	err = hwio.DigitalWrite(flowersPin, hwio.LOW)
+	err = gpioAdapter.DigitalWrite(flowersPin, hwio.LOW)
 	if err != nil {
 		return errors.Wrap(err, "Could not DigitalWrite (LOW)")
 	}
@@ -49,7 +57,7 @@ func Water(pinName string, config config.WateringEntryConfig) error {
 	time.Sleep(config.Duration)
 	log.Error(db.SaveString("water", fmt.Sprintf("CLOSE WATER PIPELINE %s (%s)", pinName, config.Comment)))
 
-	err = hwio.DigitalWrite(flowersPin, hwio.HIGH)
+	err = gpioAdapter.DigitalWrite(flowersPin, hwio.HIGH)
 	if err != nil {
 		return errors.Wrap(err, "Could not DigitalWrite (HIGH)")
 	}

@@ -3,11 +3,12 @@ package sensor
 import (
 	"context"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"io"
+
+	"github.com/sirupsen/logrus"
 )
 
-func arduinoReader(ctx context.Context, arduinoMessages chan string, reader io.ReadCloser) {
+func receiveArduinoMessages(ctx context.Context, arduinoMessages chan string, reader io.ReadCloser) {
 	const readBufferSize = 100
 
 	logrus.Info("reading arduino data...")

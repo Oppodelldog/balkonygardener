@@ -1,22 +1,34 @@
 package config
 
 import (
-	"github.com/kelseyhightower/envconfig"
-	"github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"time"
+
+	"github.com/kelseyhightower/envconfig"
+	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
 
 var Arduino ArduinoConfig
 var Db DbConfig
 var Watering WateringConfig
+var Gpio GpioConfig
+var Log LogConfig
+
+type LogConfig struct {
+	Level int
+}
 
 type ArduinoConfig struct {
 	Device   string
 	BaudRate int
+	Mock     bool
+}
+
+type GpioConfig struct {
+	Mock bool
 }
 
 type DbConfig struct {
@@ -32,11 +44,20 @@ type WateringEntryConfig struct {
 }
 
 func init() {
-	err := envconfig.Process("BG_ARDUINO", &Arduino)
+	err := envconfig.Process("BG_LOG", &Log)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	logrus.SetLevel(logrus.Level(Log.Level))
+	err = envconfig.Process("BG_ARDUINO", &Arduino)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	err = envconfig.Process("BG_DB", &Db)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	err = envconfig.Process("BG_GPIO", &Gpio)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -54,5 +75,6 @@ func init() {
 	logrus.Info("Config")
 	logrus.Infof("Arduino : %+v", Arduino)
 	logrus.Infof("Db      : %+v", Db)
+	logrus.Infof("Gpio    : %+v", Gpio)
 	logrus.Infof("Watering: %+v", Watering)
 }

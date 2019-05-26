@@ -3,10 +3,11 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Oppodelldog/balkonygardener/config"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/config"
 
 	"github.com/Oppodelldog/balkonygardener/db"
 	"github.com/Oppodelldog/balkonygardener/water"
