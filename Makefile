@@ -45,7 +45,7 @@ lint: ## Run all the linters
 
 build: ## build binary to .build folder
 	rm -f $(BINARY_FILE_PATH) 
-	go build -o $(BINARY_FILE_PATH) main.go
+	go build -o $(BINARY_FILE_PATH) app/main.go
 
 
 # Self-Documented Makefile see https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
