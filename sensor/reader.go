@@ -1,7 +1,9 @@
 package sensor
 
 import (
+	"fmt"
 	"io"
+	"math/rand"
 	"time"
 
 	"github.com/Oppodelldog/balkonygardener/config"
@@ -35,8 +37,10 @@ type arduinoMockReader struct {
 
 func (arduinoMockReader) Read(p []byte) (n int, err error) {
 	time.Sleep(1 * time.Second)
-	message := "A0:123456.789\r\n"
-	p = append(p, []byte(message)...)
+	ids := []string{"A0", "A1", "A2", "A3", "US"}
+	id := ids[rand.Intn(len(ids))]
+	message := []byte(fmt.Sprintf("%s:%v\r\n", id, rand.Float32()*600))
+	copy(p, message)
 	return len(message), nil
 }
 

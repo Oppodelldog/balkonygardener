@@ -14,7 +14,7 @@ func SaveString(name string, value string) error {
 	if err != nil {
 		return err
 	}
-	defer log.Error(db.Close())
+	defer func() { log.Error(db.Close()) }()
 
 	createTableStatement := `create table if not exists ` + name + ` (t datetime, v string)`
 	_, err = db.Exec(createTableStatement)
@@ -30,7 +30,7 @@ func SaveString(name string, value string) error {
 	if err != nil {
 		return err
 	}
-	defer log.Error(stmt.Close())
+	defer func() { log.Error(stmt.Close()) }()
 	_, err = stmt.Exec(time.Now(), value)
 	if err != nil {
 		return err

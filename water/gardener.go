@@ -82,7 +82,7 @@ func Water(pinName string, config config.WateringEntryConfig) error {
 	if err != nil {
 		return errors.Wrap(err, "Could not GetPing")
 	}
-	defer log.Error(gpioAdapter.ClosePin(flowersPin))
+	defer func() { log.Error(gpioAdapter.ClosePin(flowersPin)) }()
 
 	err = gpioAdapter.PinMode(flowersPin, hwio.OUTPUT)
 	if err != nil {

@@ -13,7 +13,7 @@ func ListValues(tableName string) (SensorValues, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer log.Error(db.Close())
+	defer func() { log.Error(db.Close()) }()
 
 	createTableStatement := `SELECT t,v FROM ` + tableName + ` ORDER BY t;`
 	rows, err := db.Query(createTableStatement)

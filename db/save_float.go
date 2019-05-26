@@ -12,11 +12,12 @@ import (
 )
 
 func SaveFloat(name string, value float64) error {
-	db, err := sql.Open("sqlite3", path.Join("./", config.Db.Filename))
+	dbFilepath := path.Join("./", config.Db.Filename)
+	db, err := sql.Open("sqlite3", dbFilepath)
 	if err != nil {
 		return err
 	}
-	defer log.Error(db.Close())
+	defer func() { log.Error(db.Close()) }()
 
 	createTableStatement := `create table if not exists ` + name + ` (t datetime, v float)`
 	_, err = db.Exec(createTableStatement)
@@ -32,7 +33,7 @@ func SaveFloat(name string, value float64) error {
 	if err != nil {
 		return err
 	}
-	defer log.Error(stmt.Close())
+	defer func() { log.Error(stmt.Close()) }()
 	_, err = stmt.Exec(time.Now(), value)
 	if err != nil {
 		return err

@@ -25,9 +25,10 @@ type LogConfig struct {
 }
 
 type ArduinoConfig struct {
-	Device   string
-	BaudRate int
-	Mock     bool
+	Device          string
+	BaudRate        int
+	Mock            bool
+	CaptureInterval int
 }
 
 type FrontendConfig struct {

@@ -16,7 +16,7 @@ func GetValuesForHours(tableName string, hours int) (SensorValues, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer log.Error(db.Close())
+	defer func() { log.Error(db.Close()) }()
 
 	dateFrom := time.Now().Add(time.Hour * time.Duration(-hours))
 	dateTo := time.Now().Add(time.Hour)

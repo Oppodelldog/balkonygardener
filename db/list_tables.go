@@ -13,7 +13,7 @@ func ListTables() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer log.Error(db.Close())
+	defer func() { log.Error(db.Close()) }()
 
 	createTableStatement := `SELECT name FROM sqlite_master WHERE type='table';`
 	rows, err := db.Query(createTableStatement)

@@ -13,7 +13,7 @@ func GetLatestValue(tableName string) (*SensorValue, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer log.Error(db.Close())
+	defer func() { log.Error(db.Close()) }()
 
 	createTableStatement := `SELECT t,v FROM ` + tableName + ` ORDER BY t DESC LIMIT 1;`
 	rows, err := db.Query(createTableStatement)
