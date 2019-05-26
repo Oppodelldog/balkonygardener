@@ -11,7 +11,6 @@ import (
 	"github.com/Oppodelldog/balkonygardener/db"
 	"github.com/Oppodelldog/balkonygardener/water"
 	"github.com/gorilla/mux"
-	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
 
@@ -111,12 +110,7 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	pinName, err := getPinNameByPipelineId(pipelineId)
-	if err != nil {
-		logrus.Error(err)
-		w.WriteHeader(500)
-		return
-	}
+	pinName := pipelineId
 	cfg := config.WateringEntryConfig{
 		Duration: time.Second * time.Duration(duration),
 	}
@@ -134,19 +128,6 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeResponse(w, jsonOKValue)
-
-}
-func getPinNameByPipelineId(pipelineId string) (string, error) {
-	mappings := map[string]string{"gpio4": "gpio4",
-		"gpio22": "gpio22",
-		"gpio17": "gpio17"}
-
-	if pinName, ok := mappings[pipelineId]; ok {
-		return pinName, nil
-
-	}
-
-	return "", errors.New("Invalid pipelineId")
 }
 
 func writeResponse(w http.ResponseWriter, jsonTableNames []byte) {
