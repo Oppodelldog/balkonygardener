@@ -119,9 +119,8 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 	}
 	cfg := config.WateringEntryConfig{
 		Duration: time.Second * time.Duration(duration),
-		PinName:  pinName,
 	}
-	err = water.Water(cfg)
+	err = water.Water(pinName, cfg)
 	if err != nil {
 		logrus.Error(err)
 		w.WriteHeader(500)

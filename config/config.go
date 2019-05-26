@@ -3,7 +3,10 @@ package config
 import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"log"
+	"os"
 	"time"
 )
 
@@ -20,35 +23,15 @@ type DbConfig struct {
 	Filename string
 }
 
-type WateringConfig struct {
-	Waterings []WateringEntryConfig
-	Time      string
-}
+type WateringConfig map[string]WateringEntryConfig
 
 type WateringEntryConfig struct {
-	Duration time.Duration
-	PinName  string
-	Comment  string
+	Duration time.Duration `yaml:"Duration"`
+	Comment  string        `yaml:"Name"`
+	Time     string        `yaml:"Time"`
 }
 
 func init() {
-	Watering.Waterings = []WateringEntryConfig{
-		{
-			PinName:  "gpio4",
-			Comment:  "Blumen",
-			Duration: time.Second * 35,
-		},
-		{
-			PinName:  "gpio17",
-			Comment:  "Baum",
-			Duration: time.Second * 20,
-		},
-		{
-			PinName:  "gpio22",
-			Comment:  "Rote Blume",
-			Duration: time.Second * 10,
-		},
-	}
 	err := envconfig.Process("BG_ARDUINO", &Arduino)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -57,9 +40,16 @@ func init() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	err = envconfig.Process("BG_WATERING", &Watering)
-	if err != nil {
-		log.Fatal(err.Error())
+	if configFile, ok := os.LookupEnv("BG_WATERING_CONFIG"); ok {
+		data, err := ioutil.ReadFile(configFile)
+		if err != nil {
+			logrus.Errorf("could not read watring config: %v", err)
+		} else {
+			err := yaml.Unmarshal([]byte(data), &Watering)
+			if err != nil {
+				logrus.Errorf("could parse watring config: %v", err)
+			}
+		}
 	}
 	logrus.Info("Config")
 	logrus.Infof("Arduino : %+v", Arduino)

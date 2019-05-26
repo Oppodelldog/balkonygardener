@@ -15,21 +15,20 @@ import (
 
 func StartGardener() {
 	hwio.SetDriver(hwio.NewRaspPiDTDriver())
-	gocron.Every(1).Day().At(config.Watering.Time).Do(watering)
+	for pinName, wateringConfig := range config.Watering {
+		gocron.Every(1).Day().At(wateringConfig.Time).Do(func() {
+			err := Water(pinName, wateringConfig)
+			if err != nil {
+				logrus.Errorf("error during watering %s(%s): %v", pinName, wateringConfig.Comment, err)
+			}
+		})
+	}
 	gocron.Start()
 }
 
-func watering() {
-	for _, wateringConfig := range config.Watering.Waterings {
-		err := Water(wateringConfig)
-		if err != nil {
-			logrus.Errorf("error during watering %s(%s): %v", wateringConfig.PinName, wateringConfig.Comment, err)
-		}
-	}
-}
-func Water(config config.WateringEntryConfig) error {
+func Water(pinName string, config config.WateringEntryConfig) error {
 
-	flowersPin, err := hwio.GetPin(config.PinName)
+	flowersPin, err := hwio.GetPin(pinName)
 	if err != nil {
 		return errors.Wrap(err, "Could not GetPing")
 
@@ -46,9 +45,9 @@ func Water(config config.WateringEntryConfig) error {
 		return errors.Wrap(err, "Could not DigitalWrite (LOW)")
 	}
 
-	log.Error(db.SaveString("water", fmt.Sprintf("OPEN WATER PIPELINE %s (%s)", config.PinName, config.Comment)))
+	log.Error(db.SaveString("water", fmt.Sprintf("OPEN WATER PIPELINE %s (%s)", pinName, config.Comment)))
 	time.Sleep(config.Duration)
-	log.Error(db.SaveString("water", fmt.Sprintf("CLOSE WATER PIPELINE %s (%s)", config.PinName, config.Comment)))
+	log.Error(db.SaveString("water", fmt.Sprintf("CLOSE WATER PIPELINE %s (%s)", pinName, config.Comment)))
 
 	err = hwio.DigitalWrite(flowersPin, hwio.HIGH)
 	if err != nil {
