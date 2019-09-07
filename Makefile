@@ -1,4 +1,3 @@
-export GO111MODULE=on
 BINARY_NAME=balkonygardener
 BINARY_FILE_PATH="bin/$(BINARY_NAME)"
 
