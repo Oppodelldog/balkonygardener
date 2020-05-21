@@ -1,3 +1,4 @@
+export GO111MODULE=on
 BINARY_NAME=balkonygardener
 BINARY_FILE_PATH="bin/$(BINARY_NAME)"
 
@@ -25,6 +26,7 @@ lint: ## Run all the linters
 		--enable=deadcode \
 		--enable=gocyclo \
 		--enable=ineffassign \
+		--enable=gosimple \
 		--enable=staticcheck \
 		--enable=gofmt \
 		--enable=golint \

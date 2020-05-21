@@ -18,15 +18,6 @@ import (
 func StartGardener() {
 	hwio.SetDriver(hwio.NewRaspPiDTDriver())
 	for pinName, wateringConfig := range config.Watering {
-		if wateringConfig.Time == "" {
-			logrus.Infof("Skipping scheduled job for %s (%s), not time defined", pinName, wateringConfig.Comment)
-			continue
-		}
-		if wateringConfig.Duration <= 0 {
-			logrus.Infof("Skipping scheduled job for %s (%s), no valid duration given", pinName, wateringConfig.Comment)
-			continue
-		}
-
 		gocron.Every(1).Day().At(wateringConfig.Time).Do(func() {
 			err := Water(pinName, wateringConfig)
 			if err != nil {
