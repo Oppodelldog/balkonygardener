@@ -28,6 +28,12 @@ build: ## build binary to .build folder
 	rm -f $(BINARY_FILE_PATH) 
 	go build -o $(BINARY_FILE_PATH) app/main.go
 
+install-service:
+	sudo service balkonygardener stop || true
+	sudo rm /etc/systemd/system/balkonygardener.service || true
+	sudo ln -s /home/pi/go-workspace/src/github.com/Oppodelldog/balkonygardener/balkonygardener.service /etc/systemd/system/balkonygardener.service
+	sudo systemctl enable /etc/systemd/system/balkonygardener.service
+	sudo service balkonygardener start
 
 # Self-Documented Makefile see https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:

@@ -1,0 +1,13 @@
+[Unit]
+Description=Balkony Gardener
+
+[Service]
+Type=simple
+ExecStart=/home/pi/go-workspace/src/github.com/Oppodelldog/balkonygardener/bin/balkonygardener
+User=pi
+Group=pi
+EnvironmentFile=/home/pi/go-workspace/src/github.com/Oppodelldog/balkonygardener/.env.prod
+WorkingDirectory=/home/pi/go-workspace/src/github.com/Oppodelldog/balkonygardener/
+
+[Install]
+WantedBy=multi-user.target
