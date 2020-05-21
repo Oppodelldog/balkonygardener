@@ -38,7 +38,7 @@ func TestArduinoReaderIsStoppedByContext(t *testing.T) {
 
 type slowReader struct{}
 
-func (slowReader) Read(p []byte) (n int, err error) {
+func (slowReader) Read([]byte) (n int, err error) {
 	return 0, nil
 }
 

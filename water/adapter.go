@@ -36,15 +36,15 @@ func (*GpioHwioAdapter) DigitalWrite(pin hwio.Pin, value int) (e error) {
 type GpioAdapterMock struct {
 }
 
-func (*GpioAdapterMock) ClosePin(pin hwio.Pin) error {
+func (*GpioAdapterMock) ClosePin(hwio.Pin) error {
 	return nil
 }
 
-func (*GpioAdapterMock) GetPin(pinName string) (hwio.Pin, error) {
+func (*GpioAdapterMock) GetPin(string) (hwio.Pin, error) {
 	return hwio.Pin(1), nil
 }
 
-func (*GpioAdapterMock) PinMode(pin hwio.Pin, mode hwio.PinIOMode) error {
+func (*GpioAdapterMock) PinMode(hwio.Pin, hwio.PinIOMode) error {
 	return nil
 }
 

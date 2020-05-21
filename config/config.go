@@ -92,7 +92,7 @@ func init() {
 		if err != nil {
 			logrus.Errorf("could not read watring config: %v", err)
 		} else {
-			err := yaml.Unmarshal([]byte(data), &Watering)
+			err := yaml.Unmarshal(data, &Watering)
 			if err != nil {
 				logrus.Errorf("could parse watring config: %v", err)
 			}

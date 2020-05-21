@@ -3,7 +3,7 @@ BINARY_NAME=balkonygardener
 BINARY_FILE_PATH="bin/$(BINARY_NAME)"
 
 setup: ## Install all the build and lint dependencies
-	wget -O- https://git.io/vp6lP | sh 
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s v1.27.0
 	go get -u golang.org/x/tools/cmd/goimports
 
 test-with-coverage: ## Run all the tests
@@ -21,27 +21,8 @@ cover: test ## Run all the tests and opens the coverage report
 fmt: ## gofmt and goimports all go files
 	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do gofmt -w -s "$$file"; goimports -w "$$file"; done
 
-lint: ## Run all the linters
-	gometalinter --vendor --disable-all \
-		--enable=deadcode \
-		--enable=gocyclo \
-		--enable=ineffassign \
-		--enable=gosimple \
-		--enable=staticcheck \
-		--enable=gofmt \
-		--enable=golint \
-		--enable=goimports \
-		--enable=dupl \
-		--enable=misspell \
-		--enable=errcheck \
-		--enable=vet \
-		--enable=vetshadow \
-		--enable=varcheck \
-		--enable=structcheck \
-		--enable=interfacer \
-		--enable=goconst \
-		--deadline=10m \
-		./... | grep -v "mocks"
+lint: ## Run the linters
+	golangci-lint run
 
 build: ## build binary to .build folder
 	rm -f $(BINARY_FILE_PATH) 

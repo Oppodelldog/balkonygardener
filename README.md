@@ -5,7 +5,7 @@ This is the software part of by balkony gardener hobby project.
 I am a bad gardener, and a lazy one.
 I have no clue when to water the plants and what else to do with them - I just
 like to have them on my balkony growing and following the flow of time. 
-Also, I like to travel on vacations so there's many days in a row where they would get
+Also, I like to travel on vacations so there're many days in a row where they would get
 no water and just dry out.
 
 So why not build some water pumping system that does the job for me?
@@ -29,12 +29,12 @@ There's a web-interface to trigger the tasks on demand.
 It also shows a list of time series data from sensors.
 
 ### Moisture Sensors (Arduino -> Pi)
-I also connected a arduino with 4 moisture sensors to gather data, put it in sqlite db and display the data
+I also connected an arduino with 4 moisture sensors to gather data, put it in sqlite db and display the data
 in a graph. The idea was to trigger watering only if plants need water. Somehow those moisture sensors did
 not work repliably.
 
 ### Ultrasonic sensor (Arduino -> Pi)
-With arduino kits often comes a ultrasonic sensor that measures ditances.
+With arduino kits often comes an ultrasonic sensor that measures ditances.
 I use this to measure the filling level of the water tank.
 
 ## Conclusion
