@@ -5,18 +5,18 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Oppodelldog/balkonygardener/rpio"
+
 	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/log"
 
 	"github.com/Oppodelldog/balkonygardener/db"
 	"github.com/jasonlvhit/gocron"
-	"github.com/mrmorphic/hwio"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
 
 func StartGardener() {
-	hwio.SetDriver(hwio.NewRaspPiDTDriver())
 	for pinName, wateringConfig := range config.Watering {
 		gocron.Every(1).Day().At(wateringConfig.Time).Do(func() {
 			err := Water(pinName, wateringConfig)
@@ -28,11 +28,11 @@ func StartGardener() {
 	gocron.Start()
 }
 
-func getGpioAdapter() GpioAdapter {
+func getGpioAdapter() rpio.GpioAdapter {
 	if config.Gpio.Mock {
-		return new(GpioAdapterMock)
+		return new(rpio.GpioAdapterMock)
 	}
-	return new(GpioHwioAdapter)
+	return new(rpio.GpioHwioAdapter)
 }
 
 func IsWatering(pinName string) bool {
@@ -80,28 +80,17 @@ func Water(pinName string, config config.WateringEntryConfig) error {
 
 	flowersPin, err := gpioAdapter.GetPin(pinName)
 	if err != nil {
-		return errors.Wrap(err, "Could not GetPing")
-	}
-	defer func() { log.Error(gpioAdapter.ClosePin(flowersPin)) }()
-
-	err = gpioAdapter.PinMode(flowersPin, hwio.OUTPUT)
-	if err != nil {
-		return errors.Wrap(err, "Could not PinMode")
+		return errors.Wrap(err, fmt.Sprintf("Could not GetPin '%s'", pinName))
 	}
 
-	err = gpioAdapter.DigitalWrite(flowersPin, hwio.LOW)
-	if err != nil {
-		return errors.Wrap(err, "Could not DigitalWrite (LOW)")
-	}
+	gpioAdapter.Output(flowersPin)
+	gpioAdapter.Low(flowersPin)
 
 	log.Error(db.SaveString("water", fmt.Sprintf("OPEN WATER PIPELINE %s (%s)", pinName, config.Comment)))
 	time.Sleep(config.Duration)
 	log.Error(db.SaveString("water", fmt.Sprintf("CLOSE WATER PIPELINE %s (%s)", pinName, config.Comment)))
 
-	err = gpioAdapter.DigitalWrite(flowersPin, hwio.HIGH)
-	if err != nil {
-		return errors.Wrap(err, "Could not DigitalWrite (HIGH)")
-	}
+	gpioAdapter.High(flowersPin)
 
 	return nil
 }

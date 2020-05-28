@@ -5,7 +5,7 @@ Description=Balkony Gardener
 Type=simple
 ExecStart=/home/pi/go-workspace/src/github.com/Oppodelldog/balkonygardener/bin/balkonygardener
 User=pi
-Group=pi
+Group=gpio
 EnvironmentFile=/home/pi/go-workspace/src/github.com/Oppodelldog/balkonygardener/.env.prod
 WorkingDirectory=/home/pi/go-workspace/src/github.com/Oppodelldog/balkonygardener/
 
