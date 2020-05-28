@@ -18,8 +18,12 @@ test: ## Run all the tests
 cover: test ## Run all the tests and opens the coverage report
 	go tool cover -html=coverage.txt
 
-fmt: ## gofmt and goimports all go files
+fmt-all: ## gofmt and goimports all go files
 	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do gofmt -w -s "$$file"; goimports -w "$$file"; done
+
+fmt: ## gofmt and goimports all uncommited go files
+	 git diff --name-only | grep .go | while read -r file; do gofmt -w -s "$$file"; goimports -w "$$file"; done
+
 
 lint: ## Run the linters
 	golangci-lint run
