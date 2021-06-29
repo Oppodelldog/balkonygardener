@@ -5,7 +5,6 @@ import (
 
 	"github.com/Oppodelldog/balkonygardener/config"
 
-	"github.com/Oppodelldog/balkonygardener/db"
 	"github.com/sirupsen/logrus"
 )
 
@@ -25,7 +24,7 @@ func processSensorInfo(sensorInfoChannel chan *Info) {
 				}
 				if time.Since(lastSaveTimes[sensorInfo.Name]) > time.Duration(config.Arduino.CaptureInterval)*time.Second {
 					logrus.Debugf("saving sensor info: %v, %v", sensorInfo.Name, sensorInfo.Value)
-					err := db.SaveFloat(sensorInfo.Name, sensorInfo.Value)
+					var err error = nil
 					if err != nil {
 						logrus.Errorf("error while saving sensor info: %v", err)
 					}

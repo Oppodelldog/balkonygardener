@@ -8,9 +8,7 @@ import (
 	"github.com/Oppodelldog/balkonygardener/rpio"
 
 	"github.com/Oppodelldog/balkonygardener/config"
-	"github.com/Oppodelldog/balkonygardener/log"
 
-	"github.com/Oppodelldog/balkonygardener/db"
 	"github.com/jasonlvhit/gocron"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -86,9 +84,7 @@ func Water(pinName string, config config.WateringEntryConfig) error {
 	gpioAdapter.Output(flowersPin)
 	gpioAdapter.Low(flowersPin)
 
-	log.Error(db.SaveString("water", fmt.Sprintf("OPEN WATER PIPELINE %s (%s)", pinName, config.Comment)))
 	time.Sleep(config.Duration)
-	log.Error(db.SaveString("water", fmt.Sprintf("CLOSE WATER PIPELINE %s (%s)", pinName, config.Comment)))
 
 	gpioAdapter.High(flowersPin)
 

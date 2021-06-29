@@ -10,11 +10,6 @@ github.com/joho/godotenv
 # github.com/kelseyhightower/envconfig v1.4.0
 ## explicit
 github.com/kelseyhightower/envconfig
-# github.com/konsorten/go-windows-terminal-sequences v1.0.3
-## explicit
-# github.com/mattn/go-sqlite3 v1.14.7
-## explicit
-github.com/mattn/go-sqlite3
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
@@ -24,8 +19,6 @@ github.com/sirupsen/logrus
 # github.com/stianeikeland/go-rpio/v4 v4.4.0
 ## explicit
 github.com/stianeikeland/go-rpio/v4
-# github.com/stretchr/objx v0.1.1
-## explicit
 # github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
 ## explicit
 github.com/tarm/serial
