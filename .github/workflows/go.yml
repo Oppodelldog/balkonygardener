@@ -22,7 +22,7 @@ jobs:
       run: go test -v ./...
       
     - name: Build
-      run: GOOS=linux GOARCH=arm GOARM=7 go build -ldflags "-extldflags '-static'" -o balkonygardener cmd/main.go
+      run: GOOS=linux GOARCH=arm GOARM=7 go build -ldflags "-extldflags '-static'" -o balkonygardener app/main.go
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
