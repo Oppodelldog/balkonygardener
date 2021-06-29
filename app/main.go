@@ -1,9 +1,10 @@
 package main
 
 import (
+	"time"
+
 	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/rpio"
-	"time"
 
 	"github.com/Oppodelldog/balkonygardener/modules"
 )
