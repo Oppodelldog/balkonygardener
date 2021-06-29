@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/Oppodelldog/balkonygardener/rpio"
 	"time"
 
@@ -8,6 +9,7 @@ import (
 )
 
 func main() {
+	config.Init()
 	rpio.Open()
 	defer rpio.Close()
 

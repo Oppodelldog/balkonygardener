@@ -60,7 +60,7 @@ type WateringEntryConfig struct {
 	Time     string        `yaml:"Time"`
 }
 
-func init() {
+func Init() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
