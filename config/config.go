@@ -1,15 +1,14 @@
 package config
 
 import (
+	"github.com/Oppodelldog/balkonygardener/log"
 	"io/ioutil"
-	"log"
 	"os"
 	"time"
 
 	"github.com/joho/godotenv"
 
 	"github.com/kelseyhightower/envconfig"
-	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
@@ -69,7 +68,7 @@ func Init() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	logrus.SetLevel(logrus.Level(Log.Level))
+	log.SetLogLevel(Log.Level)
 
 	err = envconfig.Process("BG_FRONTEND", &Frontend)
 	if err != nil {
@@ -90,17 +89,17 @@ func Init() {
 	if configFile, ok := os.LookupEnv("BG_WATERING_CONFIG"); ok {
 		data, err := ioutil.ReadFile(configFile)
 		if err != nil {
-			logrus.Errorf("could not read watring config: %v", err)
+			log.Errorf("could not read watring config: %v", err)
 		} else {
 			err := yaml.Unmarshal(data, &Watering)
 			if err != nil {
-				logrus.Errorf("could parse watring config: %v", err)
+				log.Errorf("could parse watring config: %v", err)
 			}
 		}
 	}
-	logrus.Info("Config")
-	logrus.Infof("Arduino : %+v", Arduino)
-	logrus.Infof("Db      : %+v", Db)
-	logrus.Infof("Gpio    : %+v", Gpio)
-	logrus.Infof("Watering: %+v", Watering)
+	log.Info("Config")
+	log.Infof("Arduino : %+v", Arduino)
+	log.Infof("Db      : %+v", Db)
+	log.Infof("Gpio    : %+v", Gpio)
+	log.Infof("Watering: %+v", Watering)
 }

@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"net/http"
 	"strconv"
 	"time"
@@ -11,7 +12,6 @@ import (
 
 	"github.com/Oppodelldog/balkonygardener/water"
 	"github.com/gorilla/mux"
-	"github.com/sirupsen/logrus"
 )
 
 func StartRestfulApi() {
@@ -19,7 +19,7 @@ func StartRestfulApi() {
 	router.HandleFunc("/", Index)
 	router.HandleFunc("/pipeline/{pipelineId}/trigger/{duration}", TriggerPipeline)
 
-	logrus.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +31,7 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 	pipelineId := vars["pipelineId"]
 	duration, err := strconv.Atoi(vars["duration"])
 	if err != nil {
-		logrus.Error(err)
+		log.Error(err)
 		w.WriteHeader(500)
 		return
 	}
@@ -48,7 +48,7 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		err := water.Water(pinName, cfg)
 		if err != nil {
-			logrus.Error(err)
+			log.Error(err)
 			w.WriteHeader(500)
 			return
 		}
@@ -56,7 +56,7 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 
 	jsonOKValue, err := json.Marshal("OK")
 	if err != nil {
-		logrus.Error(err)
+		log.Error(err)
 		w.WriteHeader(500)
 		return
 	}
@@ -66,6 +66,6 @@ func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
 func writeResponse(w http.ResponseWriter, jsonTableNames []byte) {
 	_, err := fmt.Fprintln(w, string(jsonTableNames))
 	if err != nil {
-		logrus.Errorf("could not write response to client: %v", err)
+		log.Errorf("could not write response to client: %v", err)
 	}
 }

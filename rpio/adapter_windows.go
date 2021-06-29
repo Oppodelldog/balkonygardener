@@ -1,9 +1,8 @@
 package rpio
 
 import (
+	"github.com/Oppodelldog/balkonygardener/log"
 	"strconv"
-
-	"github.com/sirupsen/logrus"
 )
 
 type Pin int
@@ -40,15 +39,15 @@ type GpioAdapterMock struct {
 }
 
 func (m *GpioAdapterMock) Output(pin Pin) {
-	logrus.Debugf("Pin %v is output", pin)
+	log.Debugf("Pin %v is output", pin)
 }
 
 func (m *GpioAdapterMock) High(pin Pin) {
-	logrus.Debugf("Pin %v is high", pin)
+	log.Debugf("Pin %v is high", pin)
 }
 
 func (m *GpioAdapterMock) Low(pin Pin) {
-	logrus.Debugf("Pin %v is low", pin)
+	log.Debugf("Pin %v is low", pin)
 }
 
 func (*GpioAdapterMock) ClosePin(Pin) error {

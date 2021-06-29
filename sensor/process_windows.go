@@ -1,9 +1,7 @@
 package sensor
 
-import (
-	"github.com/sirupsen/logrus"
-)
+import "github.com/Oppodelldog/balkonygardener/log"
 
 func processSensorInfo(sensorInfoChannel chan *Info) {
-	logrus.Info("processBalkonyInfo ended (windows mock)")
+	log.Info("processBalkonyInfo ended (windows mock)")
 }

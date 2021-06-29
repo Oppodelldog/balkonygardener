@@ -3,15 +3,14 @@ package sensor
 import (
 	"context"
 	"fmt"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"io"
-
-	"github.com/sirupsen/logrus"
 )
 
 func receiveArduinoMessages(ctx context.Context, arduinoMessages chan string, reader io.ReadCloser) {
 	const readBufferSize = 100
 
-	logrus.Info("reading arduino data...")
+	log.Info("reading arduino data...")
 
 	readBuffer := make([]byte, readBufferSize)
 	var messageBuffer []byte
@@ -21,7 +20,7 @@ func receiveArduinoMessages(ctx context.Context, arduinoMessages chan string, re
 			fmt.Println("closing arduino reader")
 			err := reader.Close()
 			if err != nil {
-				logrus.Errorf("error closing reader: %v", err)
+				log.Errorf("error closing reader: %v", err)
 			}
 			return
 		default:
@@ -30,7 +29,7 @@ func receiveArduinoMessages(ctx context.Context, arduinoMessages chan string, re
 				return
 			}
 			if err != nil {
-				logrus.Error(err)
+				log.Error(err)
 				break
 			}
 			readBytes := readBuffer[:n]

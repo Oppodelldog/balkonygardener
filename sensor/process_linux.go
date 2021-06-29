@@ -1,11 +1,10 @@
 package sensor
 
 import (
+	"github.com/Oppodelldog/balkonygardener/log"
 	"time"
 
 	"github.com/Oppodelldog/balkonygardener/config"
-
-	"github.com/sirupsen/logrus"
 )
 
 func processSensorInfo(sensorInfoChannel chan *Info) {
@@ -23,15 +22,15 @@ func processSensorInfo(sensorInfoChannel chan *Info) {
 					break
 				}
 				if time.Since(lastSaveTimes[sensorInfo.Name]) > time.Duration(config.Arduino.CaptureInterval)*time.Second {
-					logrus.Debugf("saving sensor info: %v, %v", sensorInfo.Name, sensorInfo.Value)
+					log.Debugf("saving sensor info: %v, %v", sensorInfo.Name, sensorInfo.Value)
 					var err error = nil
 					if err != nil {
-						logrus.Errorf("error while saving sensor info: %v", err)
+						log.Errorf("error while saving sensor info: %v", err)
 					}
 					lastSaveTimes[sensorInfo.Name] = time.Now()
 				}
 			}
 		}
 	}
-	logrus.Info("processBalkonyInfo ended")
+	log.Info("processBalkonyInfo ended")
 }

@@ -2,6 +2,7 @@ package water
 
 import (
 	"fmt"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"sync"
 	"time"
 
@@ -11,7 +12,6 @@ import (
 
 	"github.com/jasonlvhit/gocron"
 	"github.com/pkg/errors"
-	"github.com/sirupsen/logrus"
 )
 
 func StartGardener() {
@@ -19,7 +19,7 @@ func StartGardener() {
 		gocron.Every(1).Day().At(wateringConfig.Time).Do(func() {
 			err := Water(pinName, wateringConfig)
 			if err != nil {
-				logrus.Errorf("error during watering %s(%s): %v", pinName, wateringConfig.Comment, err)
+				log.Errorf("error during watering %s(%s): %v", pinName, wateringConfig.Comment, err)
 			}
 		})
 	}

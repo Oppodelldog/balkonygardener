@@ -1,6 +1,8 @@
 package sensor
 
-import "github.com/sirupsen/logrus"
+import (
+	"github.com/Oppodelldog/balkonygardener/log"
+)
 
 func arduinoMessageDecoder(arduinoMessages chan string, sensorInfoChannel chan *Info) {
 	running := true
@@ -14,7 +16,7 @@ func arduinoMessageDecoder(arduinoMessages chan string, sensorInfoChannel chan *
 			} else {
 				err, sensorInfo := parseSensorInfo(arduinoInfo)
 				if err != nil {
-					logrus.Errorf("could not parse sensor info: %v", err.Error())
+					log.Errorf("could not parse sensor info: %v", err.Error())
 				} else {
 					//logrus.Info(sensorInfo)
 					sensorInfoChannel <- sensorInfo
@@ -23,5 +25,5 @@ func arduinoMessageDecoder(arduinoMessages chan string, sensorInfoChannel chan *
 		}
 	}
 	close(sensorInfoChannel)
-	logrus.Info("arduinoMessageDecoder ended")
+	log.Info("arduinoMessageDecoder ended")
 }

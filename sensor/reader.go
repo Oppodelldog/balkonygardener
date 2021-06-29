@@ -2,12 +2,12 @@ package sensor
 
 import (
 	"fmt"
+	"github.com/Oppodelldog/balkonygardener/log"
 	"io"
 	"math/rand"
 	"time"
 
 	"github.com/Oppodelldog/balkonygardener/config"
-	"github.com/sirupsen/logrus"
 	"github.com/tarm/serial"
 )
 
@@ -21,7 +21,7 @@ func openReader() io.ReadCloser {
 
 func openSerialReader() io.ReadCloser {
 	device := config.Arduino.Device
-	logrus.Infof("Arduino Reader opening connection to %v", device)
+	log.Infof("Arduino Reader opening connection to %v", device)
 	c := &serial.Config{Name: device, Baud: config.Arduino.BaudRate}
 	s, err := serial.OpenPort(c)
 	if err != nil {
