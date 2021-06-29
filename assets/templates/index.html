@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Balkonygardener</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<meta charset="utf-8">
+<body>
+
+<script>
+    function triggerWatering(pipelineId) {
+        fetch("/pipeline/" + pipelineId + "/trigger/15")
+            .then(response => {
+                    alert(response.statusText);
+                }
+            );
+    }
+
+    function triggerLight(pipelineId) {
+        fetch("/pipeline/" + pipelineId + "/trigger/1800")
+            .then(response => {
+                    alert(response.statusText);
+                }
+            );
+    }
+
+</script>
+<ul>
+    <button onclick="triggerWatering('gpio4')">Blumenkasten</button>
+    <button onclick="triggerWatering('gpio22')">Rote Blume</button>
+    <button onclick="triggerWatering('gpio17')">Baum</button>
+    <button onclick="triggerLight('gpio16')">Licht</button>
+</ul>
+</body>
