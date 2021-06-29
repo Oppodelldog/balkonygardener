@@ -57,7 +57,7 @@ func (m *GpioAdapterMock) Low(pin Pin) {
 	log.Debugf("Pin %v is low", pin)
 }
 
-func (*GpioAdapterMock) ClosePin(Pin) error {
+func (*GpioAdapterMock) ClosePin(_ Pin) error {
 	return nil
 }
 
