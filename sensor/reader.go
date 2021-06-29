@@ -2,10 +2,11 @@ package sensor
 
 import (
 	"fmt"
-	"github.com/Oppodelldog/balkonygardener/log"
 	"io"
 	"math/rand"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/log"
 
 	"github.com/Oppodelldog/balkonygardener/config"
 	"github.com/tarm/serial"

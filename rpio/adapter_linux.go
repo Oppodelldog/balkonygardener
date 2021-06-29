@@ -1,8 +1,9 @@
 package rpio
 
 import (
-	"github.com/Oppodelldog/balkonygardener/log"
 	"strconv"
+
+	"github.com/Oppodelldog/balkonygardener/log"
 
 	"github.com/stianeikeland/go-rpio/v4"
 )

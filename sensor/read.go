@@ -3,8 +3,9 @@ package sensor
 import (
 	"context"
 	"fmt"
-	"github.com/Oppodelldog/balkonygardener/log"
 	"io"
+
+	"github.com/Oppodelldog/balkonygardener/log"
 )
 
 func receiveArduinoMessages(ctx context.Context, arduinoMessages chan string, reader io.ReadCloser) {

@@ -1,8 +1,9 @@
 package rpio
 
 import (
-	"github.com/Oppodelldog/balkonygardener/log"
 	"strconv"
+
+	"github.com/Oppodelldog/balkonygardener/log"
 )
 
 type Pin int

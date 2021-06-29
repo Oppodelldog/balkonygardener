@@ -2,9 +2,10 @@ package water
 
 import (
 	"fmt"
-	"github.com/Oppodelldog/balkonygardener/log"
 	"sync"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/log"
 
 	"github.com/Oppodelldog/balkonygardener/rpio"
 

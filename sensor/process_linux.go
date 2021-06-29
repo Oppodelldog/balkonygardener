@@ -1,8 +1,9 @@
 package sensor
 
 import (
-	"github.com/Oppodelldog/balkonygardener/log"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/log"
 
 	"github.com/Oppodelldog/balkonygardener/config"
 )

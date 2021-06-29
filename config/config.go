@@ -1,10 +1,11 @@
 package config
 
 import (
-	"github.com/Oppodelldog/balkonygardener/log"
 	"io/ioutil"
 	"os"
 	"time"
+
+	"github.com/Oppodelldog/balkonygardener/log"
 
 	"github.com/joho/godotenv"
 
@@ -89,11 +90,11 @@ func Init() {
 	if configFile, ok := os.LookupEnv("BG_WATERING_CONFIG"); ok {
 		data, err := ioutil.ReadFile(configFile)
 		if err != nil {
-			log.Errorf("could not read watring config: %v", err)
+			log.Errorf("could not read watering config: %v", err)
 		} else {
 			err := yaml.Unmarshal(data, &Watering)
 			if err != nil {
-				log.Errorf("could parse watring config: %v", err)
+				log.Errorf("could parse watering config: %v", err)
 			}
 		}
 	}
