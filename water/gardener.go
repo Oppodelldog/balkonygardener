@@ -17,12 +17,16 @@ import (
 
 func StartGardener() {
 	for pinName, wateringConfig := range config.Watering {
-		gocron.Every(1).Day().At(wateringConfig.Time).Do(func() {
+		err := gocron.Every(1).Day().At(wateringConfig.Time).Do(func() {
 			err := Water(pinName, wateringConfig)
 			if err != nil {
 				log.Errorf("error during watering %s(%s): %v", pinName, wateringConfig.Comment, err)
 			}
 		})
+
+		if err != nil {
+			log.Errorf("error performing watering %s(%s): %v", pinName, wateringConfig.Comment, err)
+		}
 	}
 	gocron.Start()
 }
