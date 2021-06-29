@@ -18,7 +18,6 @@ var Db DbConfig
 var Watering WateringConfig
 var Gpio GpioConfig
 var Log LogConfig
-var Frontend FrontendConfig
 
 type LogConfig struct {
 	Level int
@@ -29,10 +28,6 @@ type ArduinoConfig struct {
 	BaudRate        int
 	Mock            bool
 	CaptureInterval int
-}
-
-type FrontendConfig struct {
-	IndexFile string
 }
 
 type GpioConfig struct {
@@ -71,10 +66,6 @@ func Init() {
 	}
 	log.SetLogLevel(Log.Level)
 
-	err = envconfig.Process("BG_FRONTEND", &Frontend)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
 	err = envconfig.Process("BG_ARDUINO", &Arduino)
 	if err != nil {
 		log.Fatal(err.Error())

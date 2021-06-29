@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Oppodelldog/balkonygardener/web/assets"
+	"html/template"
 	"net/http"
 	"strconv"
 	"time"
@@ -15,16 +17,27 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func StartRestfulApi() {
+func StartAPIServer() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Index)
+	router.PathPrefix("/css").Handler(http.FileServer(http.FS(assets.CSS)))
 	router.HandleFunc("/pipeline/{pipelineId}/trigger/{duration}", TriggerPipeline)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, config.Frontend.IndexFile)
+	tpl, err := template.ParseFS(assets.Templates, "templates/index.html")
+	if err != nil {
+		log.Errorf("error parsing template: %v", err)
+		http.Error(w, "error", http.StatusInternalServerError)
+		return
+	}
+	err = tpl.Execute(w, nil)
+	if err != nil {
+		log.Errorf("error rendering template: %v", err)
+		return
+	}
 }
 
 func TriggerPipeline(w http.ResponseWriter, r *http.Request) {
